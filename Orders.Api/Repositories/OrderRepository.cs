@@ -21,17 +21,6 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
 
     public async Task<int> CreateOrder(Order order, CancellationToken cancellationToken)
     {
-        if (order.OrderGuid == Guid.Empty)
-        {
-            order.OrderGuid = Guid.NewGuid();
-        }
-
-        if (order.CreatedAt == default)
-        {
-            order.CreatedAt = DateTime.UtcNow;
-        }
-
-        order.TotalPrice = CalculateTotal(order);
         context.Orders.Add(order);
         await context.SaveChangesAsync(cancellationToken);
 

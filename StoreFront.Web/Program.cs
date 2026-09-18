@@ -31,11 +31,16 @@ builder.Services.AddHttpClient<IOrderService, OrderService>(httpClient =>
     httpClient.BaseAddress = new Uri(builder.Configuration["ServiceUri:OrderManagement"]!);
 });
 
-builder.Services.AddAuthentication(Constants.MyBearerScheme).AddCookie(Constants.MyBearerScheme, options =>
+builder.Services.AddAuthentication(options =>
 {
-    options.LoginPath = "/Account/Login"; // Default value, can omit
-    options.LogoutPath = "/Account/Logout"; // Default value, can omit
-    options.AccessDeniedPath = "/Account/NoPermission"; // Default value: Account/AccessDenided
+    options.DefaultAuthenticateScheme = Constants.MyBearerScheme;
+    options.DefaultChallengeScheme = Constants.MyBearerScheme;
+    options.DefaultSignInScheme = Constants.MyBearerScheme;
+}).AddCookie(Constants.MyBearerScheme, options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/NoPermission";
 });
 
 var app = builder.Build();

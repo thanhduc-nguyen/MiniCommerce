@@ -21,6 +21,7 @@ public static class SeedData
     {
         await CreateUserAsync(
             userManager,
+            userGuid: "a1bdee07-44fd-48b8-9842-cddea53af7b3",
             userName: "admin",
             email: "admin@minicommerce.local",
             name: "MiniCommerce Admin",
@@ -28,14 +29,32 @@ public static class SeedData
 
         await CreateUserAsync(
             userManager,
-            userName: "customer",
-            email: "customer@minicommerce.local",
-            name: "Sample Customer",
+            userGuid: "40e6ce14-f560-40b1-82ae-c1d9ec1015ff",
+            userName: "ronaldo",
+            email: "ronaldo@minicommerce.local",
+            name: "Cristiano Ronaldo",
             roleName: Constants.CustomerRole);
+
+        await CreateUserAsync(
+           userManager,
+           userGuid: "50e6ce14-f560-40b1-82ae-c1d9ec1015ff",
+           userName: "rooney",
+           email: "rooney@minicommerce.local",
+           name: "Wayne Rooney",
+           roleName: Constants.CustomerRole);
+
+        await CreateUserAsync(
+           userManager,
+           userGuid: "60e6ce14-f560-40b1-82ae-c1d9ec1015ff",
+           userName: "scholes",
+           email: "scholes@minicommerce.local",
+           name: "Paul Scholes",
+           roleName: Constants.CustomerRole);
     }
 
     private static async Task CreateUserAsync(
         UserManager<ApplicationUser> userManager,
+        string userGuid,
         string userName,
         string email,
         string name,
@@ -49,6 +68,7 @@ public static class SeedData
 
         user = new ApplicationUser
         {
+            Id = userGuid,
             UserName = userName,
             Email = email,
             Name = name,
