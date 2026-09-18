@@ -16,5 +16,6 @@ app.MapGet("/products", async (IProductRepository productRepository, Cancellatio
     var products = await productRepository.GetProducts(cancellationToken);
     return Results.Ok(products);
 });
+app.UseStaticFiles();
 
 app.Run();

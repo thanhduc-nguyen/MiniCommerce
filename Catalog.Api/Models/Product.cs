@@ -8,6 +8,7 @@ public class Product
     public string Description { get; set; } = default!;
     public string ImageUrl { get; set; } = default!;
     public decimal Price { get; set; }
+    public decimal DiscountRate { get; set; }
     public string CategoryName { get; set; } = default!;
     public int Stock { get; set; }
 }

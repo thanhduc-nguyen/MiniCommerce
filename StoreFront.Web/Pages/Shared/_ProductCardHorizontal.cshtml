@@ -1,0 +1,43 @@
+﻿@model ProductModel
+
+<div class="col-12">
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Model.ImageUrl" class="img-fluid rounded-start">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.ProductName</h5>
+                    <p class="card-text">Id: @Model.ProductGuid</p>
+                    <p class="card-text">Guid: @Model.ProductGuid</p>
+                    <p class="card-text">@Model.Description</p>
+                    <p class="card-text">
+                        @if (Model.DiscountedPrice < Model.Price)
+                        {
+                            <text>@Model.DiscountedPrice.ToString("c") <span style="color: #dc3545"><del>@Model.Price.ToString("c")</del></span></text>
+                        }
+                        else
+                        {
+
+                            <text>@Model.Price.ToString("c")</text>
+                        }
+                    </p>
+                    <p class="card-text">Discount Rate: @Model.DiscountRate</p>
+                    <p class="card-text">In stock: @Model.Stock</p>
+                    <p class="card-text"><small class="text-body-secondary">@Model.CategoryName</small></p>
+                    <form method="post" asp-page="/Checkout/Index" asp-page-handler="Checkout">
+                        <div class="row">
+                            <div class="col-8">
+                                <input type="hidden" name="productGuid" value="@Model.ProductGuid" />
+                                <input type="hidden" name="purchasedPrice" value="@Model.DiscountedPrice" />
+                                <button type="submit" class="btn btn-primary">Buy</button>
+                            </div>
+                            <div class="col-4"><input type="text" class="form-control" name="quantity" value="1"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

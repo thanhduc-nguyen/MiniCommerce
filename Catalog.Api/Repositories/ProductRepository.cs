@@ -39,8 +39,9 @@ public class ProductRepository : IProductRepository
                     ProductGuid = p.Field<Guid>("ProductGuid"),
                     ProductName = p.Field<string>("ProductName"),
                     Description = p.Field<string>("Description"),
-                    ImageUrl = p.Field<string>("ImageUrl"),
+                    ImageUrl = $"{_configuration["HostUrl"]}{p.Field<string>("ImageUrl")}",
                     Price = p.Field<decimal>("Price"),
+                    DiscountRate = p.Field<decimal>("DiscountRate"),
                     CategoryName = p.Field<string>("CategoryName"),
                     Stock = p.Field<int>("Stock")
                 }).ToList();
@@ -78,8 +79,9 @@ public class ProductRepository : IProductRepository
                     ProductGuid = p.Field<Guid>("ProductGuid"),
                     ProductName = p.Field<string>("ProductName"),
                     Description = p.Field<string>("Description"),
-                    ImageUrl = p.Field<string>("ImageUrl"),
+                    ImageUrl = $"{_configuration["HostUrl"]}{p.Field<string>("ImageUrl")}",
                     Price = p.Field<decimal>("Price"),
+                    DiscountRate = p.Field<decimal>("DiscountRate"),
                     CategoryName = p.Field<string>("CategoryName"),
                     Stock = p.Field<int>("Stock")
                 }).SingleOrDefault();
@@ -111,8 +113,9 @@ public class ProductRepository : IProductRepository
             ProductGuid = p.Field<Guid>("ProductGuid"),
             ProductName = p.Field<string>("ProductName"),
             Description = p.Field<string>("Description"),
-            ImageUrl = p.Field<string>("ImageUrl"),
+            ImageUrl = $"{_configuration["HostUrl"]}{p.Field<string>("ImageUrl")}",
             Price = p.Field<decimal>("Price"),
+            DiscountRate = p.Field<decimal>("DiscountRate"),
             CategoryName = p.Field<string>("CategoryName"),
             Stock = p.Field<int>("Stock")
         }).ToList();
@@ -142,6 +145,7 @@ public class ProductRepository : IProductRepository
             cmd.Parameters.Add(new SqlParameter("@Description", product.Description));
             cmd.Parameters.Add(new SqlParameter("@ImageUrl", product.ImageUrl));
             cmd.Parameters.Add(new SqlParameter("@Price", product.Price));
+            cmd.Parameters.Add(new SqlParameter("@DiscountRate", product.DiscountRate));
             cmd.Parameters.Add(new SqlParameter("@CategoryName", product.CategoryName));
             cmd.Parameters.Add(new SqlParameter("@Stock", product.Stock));
 
@@ -176,6 +180,7 @@ public class ProductRepository : IProductRepository
             cmd.Parameters.Add(new SqlParameter("@Description", product.Description));
             cmd.Parameters.Add(new SqlParameter("@ImageUrl", product.ImageUrl));
             cmd.Parameters.Add(new SqlParameter("@Price", product.Price));
+            cmd.Parameters.Add(new SqlParameter("@DiscountRate", product.DiscountRate));
             cmd.Parameters.Add(new SqlParameter("@CategoryName", product.CategoryName));
             cmd.Parameters.Add(new SqlParameter("@Stock", product.Stock));
 

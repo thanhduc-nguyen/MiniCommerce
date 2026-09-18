@@ -1,0 +1,35 @@
+@model ProductModel
+
+<div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="card mt-3 mb-3">
+        <img src="@Model.ImageUrl" class="card-img-top">
+        <div class="card-body">
+            <h6 class="card-title">
+                @if (Model.DiscountedPrice < Model.Price)
+                {
+                    <text>@Model.DiscountedPrice.ToString("c") <span style="color: #dc3545"><del>@Model.Price.ToString("c")</del></span></text>
+                }
+                else
+                {
+
+                    <text>@Model.Price.ToString("c")</text>
+                }
+            </h6>
+            <h6 style="font-size: 14px">
+                <a asp-page="/Catalog/Details" asp-route-id="@Model.ProductId">
+                    @Model.ProductName
+                </a>
+            </h6>
+            <form method="post" asp-page="/Checkout/Index" asp-page-handler="Checkout">
+                <div class="row">
+                    <div class="col-8">
+                        <input type="hidden" name="productGuid" value="@Model.ProductGuid" />
+                        <input type="hidden" name="purchasedPrice" value="@Model.DiscountedPrice" />
+                        <button type="submit" class="btn btn-primary">Buy</button>
+                    </div>
+                    <div class="col-4"><input type="text" class="form-control" name="quantity" value="1"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

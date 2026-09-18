@@ -1,0 +1,12 @@
+﻿@page
+@model StoreFront.Web.Pages.Catalog.ListModel
+@{
+}
+
+<h1 class="mb-3">@(Model.CurrentCategory ?? "All Products")</h1>
+<div class="row">
+    @foreach (var product in Model.Products)
+    {
+        <partial name="_ProductCardHorizontal" model="product" />
+    }
+</div>

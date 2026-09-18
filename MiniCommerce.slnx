@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Catalog.Api/Catalog.Api.csproj" />
-  <Project Path="OrderManagement.Api/OrderManagement.Api.csproj" />
+  <Project Path="Orders.Api/Orders.Api.csproj" />
+  <Project Path="StoreFront.Web/StoreFront.Web.csproj" Id="e4e59b47-681e-44c9-af91-33206df19f8c" />
 </Solution>

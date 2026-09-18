@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Mini Commerce</title>
+    <link rel="stylesheet" href="~/styles/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/styles/style.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand" asp-page="/Index">
+                <span style="color: #51a9ab; font-weight: 700;">Mini</span>
+                <span style="color: black; font-weight: 350;"> Commerce</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-page="/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-page="/Catalog/List">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-page="/Agent">AI Agent</a>
+                    </li>
+                </ul>
+            </div>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <form asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index")" method="post">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a asp-page="/ShoppingCart/Cart" class="btn btn-link navbar-btn navbar-link">@User.Identity.Name's cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+                        </li>
+                    </ul>
+                </form>
+            }
+            else
+            {
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a asp-page="/Account/Register" class="nav-link text-dark">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-page="/Account/Login" asp-route-returnUrl="@Helper.GetReturnUrl(Context)" class="nav-link text-dark">Login</a>
+                    </li>
+                </ul>
+            }
+        </div>
+    </nav>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.Now.Year - Mini Commerce - <a href="#">Admin</a>
+        </div>
+    </footer>
+
+    <script src="~/scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>

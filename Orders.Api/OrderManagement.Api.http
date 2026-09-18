@@ -1,0 +1,15 @@
+@Order.Api_HostAddress = https://localhost:7002
+
+GET {{Order.Api_HostAddress}}/orders/
+Accept: application/json
+
+###
+POST {{Order.Api_HostAddress}}/orders/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "productGuid": "28d65b5d-f522-448c-8ce5-203e4efe2c17",
+  "purchasedPrice": 15.95,
+  "quantity": 1
+}
