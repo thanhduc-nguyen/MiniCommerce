@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StoreFront.Web;
 using StoreFront.Web.Features.Account;
 using StoreFront.Web.Features.Account.Services;
+using StoreFront.Web.Features.AI.Providers;
 using StoreFront.Web.Models.Account;
 using StoreFront.Web.Services.Account;
 using StoreFront.Web.Services.Catalog;
@@ -21,6 +22,8 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSett
 builder.Services.AddScoped<IAppAuthenticationService, AppAuthenticationService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IAiAgentProviderFactory, AiAgentProviderFactory>();
+builder.Services.AddScoped<IAiAgentProvider, MyOwnAiAgentProvider>();
 
 builder.Services.AddHttpClient<ICatalogService, CatalogService>(httpClient =>
 {

@@ -1,27 +1,29 @@
-using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using StoreFront.Web.Models.Catalog;
-using StoreFront.Web.Services.Catalog;
+using StoreFront.Web.Features.AI.Models;
+using StoreFront.Web.Features.AI.Providers;
 
 namespace StoreFront.Web.Pages;
 
-public class IndexModel(ICatalogService catalogService) : PageModel
+public class IndexModel(IAiAgentProviderFactory factory) : PageModel
 {
-    public string Slogan { get; set; } = string.Empty;
+    [BindProperty]
+    public AiAgentModel AiAgentModel { get; set; } = new();
 
-    public IEnumerable<ProductModel> ProductsOfTheWeek { get; set; } = [];
-
-    public async Task OnGetAsync(CancellationToken cancellationToken)
+    public void OnGet()
     {
-        var result = await catalogService.GetProducts(cancellationToken);
-
-        ProductsOfTheWeek = result.TakeRandom(4);
     }
 
-    public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context,
-                                              PageHandlerExecutionDelegate next)
+    public async Task<IActionResult> OnPostSendAsync([FromBody] AiAgentModel request, CancellationToken cancellationToken)
     {
-        Slogan = "I'm feeling lucky!";
-        await next.Invoke();
+        if (string.IsNullOrWhiteSpace(request?.Prompt) || string.IsNullOrWhiteSpace(request?.Provider))
+        {
+            return BadRequest("Provider and prompt are required.");
+        }
+
+        var provider = factory.Create(request.Provider);
+        var response = await provider.SendAsync(request.Prompt, cancellationToken);
+
+        return new JsonResult(new { provider = provider.Name, response });
     }
 }

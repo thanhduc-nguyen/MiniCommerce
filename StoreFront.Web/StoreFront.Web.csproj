@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -7,13 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.GenAI" Version="1.21.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\AI\" />
+    <Folder Include="Features\AI\Controllers\" />
   </ItemGroup>
 
 </Project>
