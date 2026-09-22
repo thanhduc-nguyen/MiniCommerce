@@ -1,6 +1,6 @@
 using Agent.Api.Tools.Catalog;
 
-namespace Agent.Api.Tools;
+namespace Agent.Api;
 
 // Talks to MiniCommerce.Web over HTTP; Agent.Api has no direct DB access.
 public class MiniCommerceClient(HttpClient httpClient)

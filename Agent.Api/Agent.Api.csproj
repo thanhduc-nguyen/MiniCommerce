@@ -10,4 +10,8 @@
     <PackageReference Include="Google.GenAI" Version="1.21.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

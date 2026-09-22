@@ -1,5 +1,5 @@
+using Agent.Api;
 using Agent.Api.Agents;
-using Agent.Api.Models;
 using Agent.Api.Tools;
 using Agent.Api.Tools.Catalog;
 
@@ -15,7 +15,8 @@ builder.Services.AddHttpClient<MiniCommerceClient>(client =>
     client.BaseAddress = new Uri(baseUrl);
 });
 
-builder.Services.AddScoped<SearchProductTool>();
+// Register every tool as ITool; the agent receives them all automatically.
+builder.Services.AddScoped<ITool, SearchProductTool>();
 
 builder.Services.AddHealthChecks();
 
@@ -24,7 +25,7 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 
 app.MapPost("/agent", async (
-    AiAgentModel request,
+    AgentModel request,
     IAgentFactory factory,
     CancellationToken cancellationToken) =>
 {
