@@ -1,6 +1,6 @@
-﻿namespace Agent.Api.Providers;
+namespace Agent.Api.Agents;
 
-public class MicrosoftAgentProvider : IAgentProvider
+public class MicrosoftAgent : IAgent
 {
     public string Name => "Microsoft AI Agent";
 

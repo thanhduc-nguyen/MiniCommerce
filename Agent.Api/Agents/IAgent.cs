@@ -1,6 +1,6 @@
-namespace Agent.Api.Providers;
+namespace Agent.Api.Agents;
 
-public interface IAgentProvider
+public interface IAgent
 {
     string Name { get; }
     Task<string> SendAsync(string prompt, CancellationToken cancellationToken = default);

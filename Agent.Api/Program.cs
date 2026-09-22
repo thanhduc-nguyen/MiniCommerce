@@ -1,11 +1,12 @@
+using Agent.Api.Agents;
 using Agent.Api.Models;
-using Agent.Api.Providers;
 using Agent.Api.Tools;
+using Agent.Api.Tools.Catalog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IAgentProvider, MyOwnAgentProvider>();
-builder.Services.AddScoped<IAgentProviderFactory, AgentProviderFactory>();
+builder.Services.AddScoped<IAgent, MyOwnAgent>();
+builder.Services.AddScoped<IAgentFactory, AgentFactory>();
 
 builder.Services.AddHttpClient<MiniCommerceClient>(client =>
 {
@@ -13,6 +14,7 @@ builder.Services.AddHttpClient<MiniCommerceClient>(client =>
         ?? throw new InvalidOperationException("MiniCommerceWeb:BaseUrl is not configured.");
     client.BaseAddress = new Uri(baseUrl);
 });
+
 builder.Services.AddScoped<SearchProductTool>();
 
 builder.Services.AddHealthChecks();
@@ -23,7 +25,7 @@ app.UseHttpsRedirection();
 
 app.MapPost("/agent", async (
     AiAgentModel request,
-    IAgentProviderFactory factory,
+    IAgentFactory factory,
     CancellationToken cancellationToken) =>
 {
     if (string.IsNullOrWhiteSpace(request?.Prompt) || string.IsNullOrWhiteSpace(request?.Provider))
@@ -31,10 +33,10 @@ app.MapPost("/agent", async (
         return Results.BadRequest("Provider and prompt are required.");
     }
 
-    var provider = factory.Create(request.Provider);
-    var response = await provider.SendAsync(request.Prompt, cancellationToken);
+    var agent = factory.Create(request.Provider);
+    var response = await agent.SendAsync(request.Prompt, cancellationToken);
 
-    return Results.Ok(new { provider = provider.Name, response });
+    return Results.Ok(new { provider = agent.Name, response });
 });
 
 app.MapHealthChecks("/health");
