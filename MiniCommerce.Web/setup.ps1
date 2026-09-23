@@ -1,1 +1,1 @@
-sqlcmd -S localhost -U sa -P Cvbnm123@ -i setupdatabase.sql
+sqlcmd -S "(localdb)\MSSQLLocalDB" -E -i setupdatabase.sql

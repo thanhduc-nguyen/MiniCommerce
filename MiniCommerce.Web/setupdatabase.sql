@@ -3,7 +3,7 @@
     Creates a single database (MiniCommerce) containing the ASP.NET Core Identity
     tables, the Products table and the Orders table, then seeds sample data.
 
-    Run with: sqlcmd -S localhost -U sa -P Cvbnm123@ -i setupdatabase.sql
+    Run with: sqlcmd -S "(localdb)\MSSQLLocalDB" -E -i setupdatabase.sql
 */
 
 IF (DB_ID(N'MiniCommerce') IS NOT NULL)
