@@ -1,12 +1,13 @@
 using Agent.Api;
 using Agent.Api.Agents;
-using Agent.Api.Tools;
-using Agent.Api.Tools.Catalog;
+using Agent.Api.Tools.MyOwnAgent;
+using Agent.Api.Tools.MyOwnAgent.Catalog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IAgent, MyOwnAgent>();
 builder.Services.AddScoped<IAgentFactory, AgentFactory>();
+builder.Services.AddScoped<IAgent, MyOwnAgent>();
+builder.Services.AddScoped<IAgent, MicrosoftAgent>();
 
 builder.Services.AddHttpClient<MiniCommerceClient>(client =>
 {

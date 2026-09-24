@@ -1,5 +1,7 @@
+using System.ComponentModel;
+using System.Reflection;
 using System.Text;
-using Agent.Api.Tools;
+using Agent.Api.Tools.MyOwnAgent;
 using Google.GenAI;
 
 namespace Agent.Api.Agents;
@@ -9,13 +11,14 @@ namespace Agent.Api.Agents;
 public class MyOwnAgent(IEnumerable<ITool> tools) : IAgent
 {
     public string Name => "My Own AI Agent";
+    private readonly string apiKey = Environment.GetEnvironmentVariable("Gemini__ApiKey")!;
 
     // A real agent loops "forever"; this cap stops a confused model looping endlessly.
     private const int MaxSteps = 5;
 
     public async Task<string> SendAsync(string prompt, CancellationToken ct = default)
     {
-        var client = new Client(apiKey: Environment.GetEnvironmentVariable("Gemini__ApiKey"));
+        var client = new Client(apiKey: apiKey);
         var toolsByName = tools.ToDictionary(t => t.Name, StringComparer.OrdinalIgnoreCase);
 
         // The whole story the model can see. Tool results get appended each turn,
@@ -50,7 +53,7 @@ public class MyOwnAgent(IEnumerable<ITool> tools) : IAgent
 
     private static string BuildRules(IEnumerable<ITool> tools)
     {
-        var toolList = string.Join(Environment.NewLine, tools.Select(t => $"- {t.Name}: {t.Description}"));
+        var toolList = string.Join(Environment.NewLine, tools.Select(t => $"- {t.Name}: {GetDescription(t)}"));
 
         return $"""
             You are a helpful shopping assistant for MiniCommerce.
@@ -65,6 +68,13 @@ public class MyOwnAgent(IEnumerable<ITool> tools) : IAgent
             When you are ready to answer the user, reply with:
             ANSWER: <your answer>
             """;
+    }
+
+    private static string GetDescription(ITool tool)
+    {
+        return tool.GetType().GetCustomAttribute<DescriptionAttribute>()?.Description
+            ?? throw new InvalidOperationException(
+                $"Tool type '{tool.GetType().Name}' must define a DescriptionAttribute.");
     }
 
     private static bool TryParseToolCall(string reply, out string toolName, out string input)
