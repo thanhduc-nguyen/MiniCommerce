@@ -16,7 +16,7 @@ public class MyOwnAgent(IEnumerable<ITool> tools) : IAgent
     // A real agent loops "forever"; this cap stops a confused model looping endlessly.
     private const int MaxSteps = 5;
 
-    public async Task<string> SendAsync(string prompt, CancellationToken ct = default)
+    public async Task<string> SendAsync(Guid userGuid, string prompt, CancellationToken ct = default)
     {
         var client = new Client(apiKey: apiKey);
         var toolsByName = tools.ToDictionary(t => t.Name, StringComparer.OrdinalIgnoreCase);

@@ -1,4 +1,4 @@
-namespace Agent.Api.Tools.MyOwnAgent.Catalog;
+namespace Agent.Api.Tools.MyOwnAgent;
 
 public class ProductDto
 {

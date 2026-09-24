@@ -1,28 +1,21 @@
-using Agent.Api.Tools.MicrosoftAgent;
-using Google.GenAI;
 using Microsoft.Agents.AI;
-using Microsoft.Extensions.AI;
 
 namespace Agent.Api.Agents;
 
-public class MicrosoftAgent : IAgent
+// The ChatClientAgent is shared (singleton); only the session is per user.
+public class MicrosoftAgent(ChatClientAgent agent, IAgentSessionStore sessionStore) : IAgent
 {
     public string Name => "Microsoft AI Agent";
-    private readonly string apiKey = Environment.GetEnvironmentVariable("Gemini__ApiKey")!;
-    private readonly string model = "gemini-3.5-flash-lite";
 
-    public async Task<string> SendAsync(string prompt, CancellationToken cancellationToken = default)
+    public async Task<string> SendAsync(Guid userGuid, string prompt, CancellationToken cancellationToken = default)
     {
-        ChatClientAgent agentGenAI = new(
-            new Client(vertexAI: false, apiKey: apiKey).AsIChatClient(model),
-            name: Name,
-            instructions: "You are a good assistant.",
-            tools: [AIFunctionFactory.Create(SearchProductTool.GetWeather),
-                AIFunctionFactory.Create(SearchProductTool.GetClimateChange)]);
+        AgentSession session = await sessionStore.GetOrCreateAsync(
+            Name,
+            userGuid,
+            async ct => await agent.CreateSessionAsync(ct),
+            cancellationToken);
 
-        AgentSession session = await agentGenAI.CreateSessionAsync(cancellationToken);
-
-        AgentResponse response = await agentGenAI.RunAsync(prompt, session, cancellationToken: cancellationToken);
+        AgentResponse response = await agent.RunAsync(prompt, session, cancellationToken: cancellationToken);
         return response.ToString();
     }
 }

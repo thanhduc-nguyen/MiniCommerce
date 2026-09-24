@@ -1,6 +1,7 @@
 (function () {
     const providerToggle = document.getElementById('ai-provider-toggle');
     const providerInput = document.getElementById('ai-provider-input');
+    const userGuidInput = document.getElementById('ai-user-guid-input');
     const promptInput = document.getElementById('ai-prompt-input');
     const chatLog = document.getElementById('ai-chat-log');
     const form = document.getElementById('ai-prompt-form');
@@ -33,6 +34,7 @@
         }
 
         const provider = providerInput.value;
+        const userGuid = userGuidInput.value;
         const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
 
         appendMessage('You', prompt);
@@ -46,7 +48,7 @@
                     'Content-Type': 'application/json',
                     'RequestVerificationToken': token
                 },
-                body: JSON.stringify({ provider, prompt })
+                body: JSON.stringify({ provider, prompt, userGuid })
             });
 
             if (!response.ok) {

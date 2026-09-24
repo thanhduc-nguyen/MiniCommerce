@@ -1,4 +1,4 @@
-using Agent.Api.Tools.MyOwnAgent.Catalog;
+using Agent.Api.Tools.MyOwnAgent;
 
 namespace Agent.Api;
 

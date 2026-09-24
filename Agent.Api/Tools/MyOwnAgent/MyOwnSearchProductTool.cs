@@ -1,8 +1,8 @@
 using System.Text.Json;
 
-namespace Agent.Api.Tools.MyOwnAgent.Catalog;
+namespace Agent.Api.Tools.MyOwnAgent;
 
-public class SearchProductTool(MiniCommerceClient miniCommerceClient) : ITool
+public class MyOwnSearchProductTool(MiniCommerceClient miniCommerceClient) : ITool
 {
     public string Name => "search_products";
     public string Description =>
